@@ -20,7 +20,7 @@ app = FastAPI()
 # --- CORS Middleware ---
 origins = [
     "http://localhost:3000",
-    "https://health-risk.netlify.app" # Add your Netlify URL here
+    "https://health-risk.netlify.app/" # Add your Netlify URL here
 ]
 app.add_middleware(
     CORSMiddleware,
