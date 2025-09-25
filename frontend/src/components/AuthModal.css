@@ -1,0 +1,79 @@
+/* src/components/AuthModal.css */
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+
+.auth-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  outline: none;
+}
+
+.auth-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-modal h2 {
+  margin-top: 0;
+}
+
+.auth-modal p {
+  color: #667085;
+}
+
+.auth-modal input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #D0D5DD;
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.auth-modal button {
+  background-color: #2775EC;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.auth-modal button:disabled {
+  background-color: #a0c3f7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #D92D20;
+  background-color: #FEF3F2;
+  border: 1px solid #FECDCA;
+  padding: 8px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.toggle-view {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.toggle-view span {
+  color: #2775EC;
+  font-weight: 500;
+  cursor: pointer;
+}

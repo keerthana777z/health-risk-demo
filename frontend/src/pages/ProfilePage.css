@@ -1,0 +1,150 @@
+/* src/pages/ProfilePage.css */
+
+.profile-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.profile-header h1 {
+  font-size: 2.5rem;
+  color: #101828;
+}
+
+.profile-header p {
+  font-size: 1.125rem;
+  color: #667085;
+}
+
+.profile-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Base card style */
+.card {
+  background-color: #fff;
+  border: 1px solid #EAECF0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Left Column */
+.user-info-card {
+  flex: 0 0 300px; /* Do not grow, do not shrink, base width 300px */
+  text-align: center;
+  padding: 32px;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #D1E9FF;
+  color: #2775EC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  margin: 0 auto 16px;
+}
+
+.user-info-card h2 {
+  margin: 0;
+  color: #101828;
+}
+
+.user-role {
+  color: #667085;
+  margin-bottom: 24px;
+}
+
+.user-details {
+  text-align: left;
+  margin-bottom: 24px;
+}
+.user-details p {
+  color: #667085;
+  margin: 8px 0;
+}
+.user-details strong {
+  color: #344054;
+}
+
+.edit-profile-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #D0D5DD;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Right Column */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.recent-assessments ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-assessments li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #EAECF0;
+}
+
+.recent-assessments li:last-child {
+  border-bottom: none;
+}
+
+.risk-tag {
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.risk-tag.low {
+  background-color: #ECFDF3;
+  color: #027A48;
+}
+.risk-tag.moderate {
+  background-color: #FFFAEB;
+  color: #B54708;
+}
+
+.risk-percent {
+  font-weight: 600;
+  color: #344054;
+}
+
+/* Bottom Section */
+.health-goals {
+  margin-top: 40px;
+}
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.goal-card h4 {
+  font-size: 2rem;
+  margin: 0 0 8px 0;
+}
