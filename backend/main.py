@@ -19,8 +19,8 @@ app = FastAPI()
 
 # --- CORS Middleware ---
 origins = [
-    "https://health-risk-api-afp6.onrender.com/",
-    # "https://your-app-name.netlify.app" # IMPORTANT: Add your deployed frontend URL here later
+    "http://localhost:3000",
+    "https://health-risk.netlify.app" # Add your Netlify URL here
 ]
 app.add_middleware(
     CORSMiddleware,
