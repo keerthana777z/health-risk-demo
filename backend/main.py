@@ -13,11 +13,15 @@ SUPABASE_URL = "https://pxuochjvbgkermlpbvea.supabase.co"
 SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4dW9jaGp2YmdrZXJtbHBidmVhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODczNzQxNSwiZXhwIjoyMDc0MzEzNDE1fQ.EIWFEKhdJq8wPTeqGCO-vxku5hMj3ckKA2O7RcRrrKQ"
 supabase_admin: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
+
 # Initialize the FastAPI app
 app = FastAPI()
 
 # --- CORS Middleware ---
-origins = ["http://localhost:3000"]
+origins = [
+    "https://health-risk-api-afp6.onrender.com/",
+    # "https://your-app-name.netlify.app" # IMPORTANT: Add your deployed frontend URL here later
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -30,6 +34,7 @@ app.add_middleware(
 try:
     diabetes_model = joblib.load('../model/diabetes_model.pkl')
     heart_disease_model = joblib.load('../model/heart_disease_model.pkl')
+    print("All models loaded successfully")
 except Exception as e:
     print(f"Error loading models: {e}")
     diabetes_model = None
@@ -37,37 +42,65 @@ except Exception as e:
 
 # --- Pydantic Models ---
 class DiabetesFeatures(BaseModel):
-    # ... (same as before)
-    Pregnancies: int; Glucose: float; BloodPressure: int; SkinThickness: int;
-    Insulin: float; BMI: float; DiabetesPedigreeFunction: float; Age: int
+    Pregnancies: int
+    Glucose: float
+    BloodPressure: int
+    SkinThickness: int
+    Insulin: float
+    BMI: float
+    DiabetesPedigreeFunction: float
+    Age: int
 
 class HeartFeatures(BaseModel):
-    # ... (same as before)
-    age: int; sex: int; cp: int; trestbps: int; chol: int; fbs: int;
-    restecg: int; thalch: int; exang: int; oldpeak: float; slope: int;
-    ca: int; thal: int
+    age: int
+    sex: int
+    cp: int
+    trestbps: int
+    chol: int
+    fbs: int
+    restecg: int
+    thalch: int
+    exang: int
+    oldpeak: float
+    slope: int
+    ca: int
+    thal: int
 
 # --- API Endpoints ---
+@app.get("/")
+def read_root():
+    return {"message": "Health Risk Prediction API is running!"}
+
 @app.post("/predict/diabetes")
 def predict_diabetes(features: DiabetesFeatures):
-    # ... (same as before)
-    if diabetes_model is None: return {"error": "Model not loaded"}
-    feature_order = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
-    input_df = pd.DataFrame([features.dict()])[feature_order]
-    pred_raw = diabetes_model.predict(input_df)[0]
-    pred_prob = diabetes_model.predict_proba(input_df)[0]
+    if diabetes_model is None:
+        return {"error": "Diabetes model not loaded"}
+    
+    feature_order = [
+        'Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 
+        'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age'
+    ]
+    
+    input_df = pd.DataFrame([features.dict()])
+    input_df_reordered = input_df[feature_order]
+    
+    pred_raw = diabetes_model.predict(input_df_reordered)[0]
+    pred_prob = diabetes_model.predict_proba(input_df_reordered)[0]
+
     return {"prediction": int(pred_raw), "probability": float(max(pred_prob))}
 
 @app.post("/predict/heart")
 def predict_heart(features: HeartFeatures):
-    # ... (same as before)
-    if heart_disease_model is None: return {"error": "Model not loaded"}
+    if heart_disease_model is None:
+        return {"error": "Heart disease model not loaded"}
+    
     input_df = pd.DataFrame([features.dict()])
     pred_raw = heart_disease_model.predict(input_df)[0]
     pred_prob = heart_disease_model.predict_proba(input_df)[0]
+
     return {"prediction": int(pred_raw), "probability": float(max(pred_prob))}
 
-# --- NEW ADMIN ENDPOINT ---
+# --- ADMIN ENDPOINT ---
 @app.get("/analytics/average_probability")
 def get_average_probability():
     # This client uses the service_role key to bypass RLS and fetch ALL data
