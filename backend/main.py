@@ -22,10 +22,9 @@ supabase_admin: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 app = FastAPI()
 
 # --- CORS ---
-origins = [
-    "http://localhost:3000",
-    "https://health-risk.netlify.app"
-]
+# --- FINAL FIX FOR EXPO GO ---
+# By adding "*", you allow requests from your website, mobile app, and everywhere else.
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -82,13 +81,11 @@ def get_ai_explanation(user_input: dict, model_name: str, prediction: str, proba
             f"The patient's data is: {user_input}. Keep it concise (2-3 sentences)."
         )
 
-        # Using the "command" model as requested.
         response = co.chat(
-            model="command-a-03-2025", # Use a current, supported model
-            message=prompt # Use 'message' for the new version
+            model="command",
+            message=prompt
         )
         
-        # The new response structure
         return response.text.strip()
             
     except Exception as e:
